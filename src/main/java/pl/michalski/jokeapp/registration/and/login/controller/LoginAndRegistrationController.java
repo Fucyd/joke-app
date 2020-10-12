@@ -13,12 +13,12 @@ import pl.michalski.jokeapp.registration.and.login.dto.UserRegistrationDto;
 import javax.validation.Valid;
 
 @Controller
-public class LoginController {
+public class LoginAndRegistrationController {
     private UserRegistrationComponent userRegistrationComponent;
 //    private EmailService emailService = new EmailServiceImpl();
 
     @Autowired
-    public LoginController(UserRegistrationComponent userRegistrationComponent) {
+    public LoginAndRegistrationController(UserRegistrationComponent userRegistrationComponent) {
         this.userRegistrationComponent = userRegistrationComponent;
     }
 

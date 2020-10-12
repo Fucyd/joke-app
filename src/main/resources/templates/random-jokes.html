@@ -25,10 +25,9 @@
     <link rel="manifest" th:href="@{/docs/4.5/assets/img/favicons/manifest.json}">
     <link rel="mask-icon" th:href="@{/docs/4.5/assets/img/favicons/safari-pinned-tab.svg}" color="#563d7c">
     <link rel="icon" th:href="@{/docs/4.5/assets/img/favicons/favicon.ico}">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-
     <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#563d7c">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 
 
     <style>
@@ -74,20 +73,18 @@
         <div th:class="'page-title'">
             <h2> Register -> Login -> Get Chuck Norris jokes -> Pick one -> Save -> Have fun</h2>
         </div>
-        <div th:class="'content'">
-            <h4>
-                Hello, I created this app to show a piece of my programing skills. <br>
-                I created this app based on <a th:href="@{https://api.chucknorris.io/}">Chuck Norris Api</a><br>
-                After registration your username will saved in my db.<br>
-                If you do not want to register you can use test account:<br>
-                login: user<br>
-                password: 123<br>
-                Enjoy<br>
-            <a th:href="@{https://github.com/fucyd/joke-app}"> Github</a>
-            <a th:href="@{https://www.linkedin.com/in/piotr-michalski-735891184/}"> LikedIn</a><br>
-            </h4>
+        <h4><a th:href="@{/jokes}">New Jokes</a> </h4>
+        <div sec:authorize="isAuthenticated()" th:class="'content'" th:each="joke : ${jokes}">
+            <p th:text="${joke.value}">joke</p>
+            <form th:action="@{/jokes/save}" th:object="${addJoke}" method="post">
+                <button th:class="'btn' + ' btn-primary'" type="submit" value="Submit">Save Joke</button>
+            </form>
         </div>
 
+        <div sec:authorize="isAnonymous()" th:class="'content'" th:each="joke : ${jokes}">
+            <p th:text="${joke.value}">joke</p>
+            <p th:class="joke-info">log in to save jokes</p>
+        </div>
     </div>
 
 </main><!-- /.container -->

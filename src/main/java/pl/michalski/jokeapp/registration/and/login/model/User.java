@@ -1,8 +1,10 @@
 package pl.michalski.jokeapp.registration.and.login.model;
 
 import lombok.*;
+import pl.michalski.jokeapp.jokes.Joke;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -23,7 +25,8 @@ public class User {
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
     private Set<Authority> authorities;
-
+    @OneToMany(mappedBy = "user")
+    private List<Joke> jokes;
     @Builder.Default
     private Boolean accountNonExpired = true;
     @Builder.Default

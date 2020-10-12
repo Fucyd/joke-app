@@ -74,18 +74,14 @@
         <div th:class="'page-title'">
             <h2> Register -> Login -> Get Chuck Norris jokes -> Pick one -> Save -> Have fun</h2>
         </div>
+        <h1>My Saved Jokes</h1>
         <div th:class="'content'">
-            <h4>
-                Hello, I created this app to show a piece of my programing skills. <br>
-                I created this app based on <a th:href="@{https://api.chucknorris.io/}">Chuck Norris Api</a><br>
-                After registration your username will saved in my db.<br>
-                If you do not want to register you can use test account:<br>
-                login: user<br>
-                password: 123<br>
-                Enjoy<br>
-            <a th:href="@{https://github.com/fucyd/joke-app}"> Github</a>
-            <a th:href="@{https://www.linkedin.com/in/piotr-michalski-735891184/}"> LikedIn</a><br>
-            </h4>
+            <div sec:authorize="isAuthenticated()" th:class="'content'" th:each="joke : ${savedJokes}">
+                <p th:text="${joke.value}">joke</p>
+                <form th:action="@{/jokes/delete}"  method="post">
+                    <button th:class="'btn' + ' btn-primary'" type="submit" value="Submit">Save Joke</button>
+                </form>
+            </div>
         </div>
 
     </div>
