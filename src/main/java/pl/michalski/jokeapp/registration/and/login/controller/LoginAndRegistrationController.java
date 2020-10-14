@@ -35,7 +35,7 @@ public class LoginAndRegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registerNewUser(@ModelAttribute("newUser") @Valid UserRegistrationDto userRegistrationDto,
+    public String registerNewUser( @ModelAttribute("newUser") @Valid UserRegistrationDto userRegistrationDto,
                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "registration";
@@ -45,15 +45,12 @@ public class LoginAndRegistrationController {
             return "registration";
 
         }
-        if(!userRegistrationComponent.checkIfUserExists(userRegistrationDto.getUsername(), userRegistrationDto.getEmail())){
-            bindingResult.rejectValue("username", "usernameNotAvailable");
-            bindingResult.rejectValue("email", "emailNotAvailable");
+        if(!userRegistrationComponent.checkIfUserExists(userRegistrationDto.getUsername())){
+            bindingResult.rejectValue("username", "usernameNotAvailable", "Username not available");
             return "registration";
-
         }
-
         userRegistrationComponent.save(userRegistrationDto);
-
-        return "redirect:/login";
+        return "redirect:/";
     }
+
 }

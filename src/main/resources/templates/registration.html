@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Starter Template · Bootstrap</title>
+    <title>Chuck Norris Jokes</title>
 
     <link rel="canonical" th:href="@{https://getbootstrap.com/docs/4.5/examples/starter-template/}">
 
@@ -51,7 +51,7 @@
                 <a th:class="nav-link" th:href="@{/jokes}">Jokes</a>
             </li>
             <li th:class="nav-item">
-                <a th:class="'nav-link'" th:href="@{jokes/saved}">My Jokes</a>
+                <a th:class="'nav-link'" th:href="@{/jokes/saved}">My Jokes</a>
             </li>
             <li sec:authorize="isAuthenticated()" th:class="nav-item">
                 <a th:class="nav-link" th:href="@{/logout}">Wyloguj</a>
@@ -74,20 +74,47 @@
         <div th:class="'page-title'">
             <h2> Register -> Login -> Get Chuck Norris jokes -> Pick one -> Save -> Have fun</h2>
         </div>
-        <div th:class="'content'">
-            <h4>
-                Hello, I created this app to show a piece of my programing skills. <br>
-                I created this app based on <a th:href="@{https://api.chucknorris.io/}">Chuck Norris Api</a><br>
-                After registration your username will saved in my db.<br>
-                If you do not want to register you can use test account:<br>
-                login: user<br>
-                password: 123<br>
-                Enjoy<br>
-                <a th:href="@{https://github.com/fucyd/joke-app}"> Github</a>
-                <a th:href="@{https://www.linkedin.com/in/piotr-michalski-735891184/}"> LikedIn</a><br>
-            </h4>
-        </div>
+        <div th:class="'row'">
+            <div th:class="'col-md-6' + ' col-md-offset-3'">
 
+                <div th:if="${param.success}">
+                    <div>You've successfully registered
+                        to our awesome app!
+                    </div>
+                </div>
+
+                <h1>Registration</h1>
+                <form action="#" th:action="@{/registration}" th:object="${newUser}" method="post">
+                    <div th:class="'form-group'">
+                        <label for="exampleInputEmail1">Username</label>
+                        <input type="text" th:class="'form-control'" id="exampleInputEmail1"
+                               th:field="*{username}"
+                               placeholder="Enter username">
+                        <small th:id="'emailHelp'" th:class="'form-text' + ' text-muted'">We'll never share your
+                            username with anyone
+                            else.</small>
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+
+                    </div>
+                    <div th:class="'form-group'">
+                        <label th:for="exampleInputPassword1">Password</label>
+                        <input type="password" th:field="*{password}" th:class="'form-control'"
+                               th:id="exampleInputPassword1"
+                               placeholder="Password">
+                    </div>
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+                    <div th:class="'form-group'">
+                        <label th:for="exampleInputPassword2">Confirm Password</label>
+                        <input type="password" th:field="*{confirmPassword}" th:class="form-control"
+                               th:id="exampleInputPassword2" placeholder="Password">
+                    </div>
+                    <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+
+                    <button type="submit" th:class="'btn' +  ' btn-primary'">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 </main><!-- /.container -->

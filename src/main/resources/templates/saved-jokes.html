@@ -51,7 +51,7 @@
                 <a th:class="nav-link" th:href="@{/jokes}">Jokes</a>
             </li>
             <li th:class="nav-item">
-                <a th:class="'nav-link'" th:href="@{jokes/saved}">My Jokes</a>
+                <a th:class="'nav-link'" th:href="@{/jokes/saved}">My Jokes</a>
             </li>
             <li sec:authorize="isAuthenticated()" th:class="nav-item">
                 <a th:class="nav-link" th:href="@{/logout}">Wyloguj</a>
@@ -75,15 +75,19 @@
             <h2> Register -> Login -> Get Chuck Norris jokes -> Pick one -> Save -> Have fun</h2>
         </div>
         <h1>My Saved Jokes</h1>
-        <div th:class="'content'">
-            <div sec:authorize="isAuthenticated()" th:class="'content'" th:each="joke : ${savedJokes}">
+        <div th:class="'joke-content'">
+            <div th:if="${!savedJokes.isEmpty()}">
+            <div sec:authorize="isAuthenticated()"  th:each="joke : ${savedJokes}">
                 <p th:text="${joke.value}">joke</p>
-                <form th:action="@{/jokes/delete}"  method="post">
-                    <button th:class="'btn' + ' btn-primary'" type="submit" value="Submit">Save Joke</button>
+                <form sec:authorize="isAuthenticated()" th:action="@{'/jokes/delete/' + ${joke.id}} " method="post">
+                    <button th:class="'btn' + ' btn-primary'" type="submit" value="Submit">Delete Joke</button>
                 </form>
             </div>
+            </div>
+            <div th:if="${savedJokes.isEmpty()}">
+                <p>No saved jokes</p>
+            </div>
         </div>
-
     </div>
 
 </main><!-- /.container -->

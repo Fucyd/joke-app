@@ -24,9 +24,8 @@ public class UserRegistrationComponent {
     }
 
 
-    public Boolean checkIfUserExists(String username, String email){
-        if(userRepository.findByUsername(username).isEmpty() &&
-                userRepository.findByEmail(email).isEmpty()){
+    public Boolean checkIfUserExists(String username){
+        if(userRepository.findByUsername(username).isEmpty()){
             return true;
         }else {
             return false;
@@ -40,7 +39,6 @@ public class UserRegistrationComponent {
         HashSet<Authority> authorities = new HashSet<>();
         authorities.add(userRole);
         user.setUsername(userRegistrationDto.getUsername());
-        user.setEmail(userRegistrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
         user.setAuthorities(authorities);
         userRepository.save(user);

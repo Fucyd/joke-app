@@ -16,21 +16,29 @@ body{
     font-family: 'Lato', sans-serif;
 }
 /* my own style*/
-.page-content{
-    text-align: center;
-}
+.container{
+    display: flex;
+    align-content: center;
 
+}
+.page.content{
+    margin-top: 5rem;
+}
 .page-title {
     margin-top: 5rem;
     margin-bottom: 5rem;
 
 }
 
-.content{
+.joke-content{
     font-size:1.25rem;
     width: 75vw;
-    height: 15vh;
+    height: 20vh;
 
+}
+
+.registration-form{
+    display: block;
 }
 
 .joke-info{

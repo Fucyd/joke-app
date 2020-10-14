@@ -8,6 +8,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class JokeDto {
+public class JokeToShow {
+    private Integer id;
     private String value;
 }

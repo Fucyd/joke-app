@@ -1,9 +1,9 @@
 package pl.michalski.jokeapp.jokes;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import pl.michalski.jokeapp.registration.and.login.model.User;
+import pl.michalski.jokeapp.registration.and.login.repository.UserRepository;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -13,32 +13,48 @@ import java.util.List;
 
 @Component
 public class JokesService {
-
+    private UserRepository userRepository;
     private JokeRepository jokeRepository;
     private JokesMapperService jokesMapperService;
 
     @Autowired
-    public JokesService(JokeRepository jokeRepository, JokesMapperService jokesMapperService) {
+    public JokesService(UserRepository userRepository, JokeRepository jokeRepository, JokesMapperService jokesMapperService) {
+        this.userRepository = userRepository;
         this.jokeRepository = jokeRepository;
         this.jokesMapperService = jokesMapperService;
     }
 
-    public List<Joke> getUserSavedJokes(Principal principal){
-        return jokeRepository.getAllByUser_Username(principal.getName());
+    public List<JokeToShow> getUserSavedJokes(Principal principal) {
+        List<JokeToShow> jokesToShow = new ArrayList<>();
+        List<Joke> savedJokes = jokeRepository.getAllByUser_Username(principal.getName());
+        savedJokes.forEach(joke -> jokesToShow.add(new JokeToShow(joke.getId(), joke.getValue())));
+        return jokesToShow;
+
     }
 
     //zamiana na obiekt Joke
-    public List<JokeDto> getThreeRandomJokes() throws IOException, InterruptedException {
-        List<JokeDto> jokeDtos = new ArrayList<>();
+    public List<JokeToShow> getThreeRandomJokes() throws IOException, InterruptedException {
+        List<JokeToShow> jokeToShows = new ArrayList<>();
         List<JokeMapper> jokeMapperList = jokesMapperService.getRandomJokes();
-        jokeMapperList.forEach(jokeMapper -> jokeDtos.add(jokeMapperToJoke(jokeMapper)));
-        return jokeDtos;
+        jokeMapperList.forEach(jokeMapper -> jokeToShows.add(jokeMapperToJoke(jokeMapper)));
+        return jokeToShows;
     }
 
-    private JokeDto jokeMapperToJoke(JokeMapper jokeMapper){
-        JokeDto jokeDto = new JokeDto();
-        jokeDto.setValue(jokeMapper.getValue());
-        return jokeDto;
+    private JokeToShow jokeMapperToJoke(JokeMapper jokeMapper) {
+        JokeToShow jokeToShow = new JokeToShow();
+        jokeToShow.setValue(jokeMapper.getValue());
+        return jokeToShow;
+    }
+
+    public void saveJoke(String username, String jokeValue) {
+        Joke joke = new Joke();
+        joke.setValue(jokeValue);
+        joke.setUser(userRepository.findByUsername(username).get());
+        jokeRepository.save(joke);
+    }
+
+    public void deleteSavedJoke(Integer id){
+        jokeRepository.deleteById(id);
     }
 
 }

@@ -19,7 +19,6 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    private String email;
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},

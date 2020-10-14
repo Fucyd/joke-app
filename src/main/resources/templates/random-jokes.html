@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Starter Template · Bootstrap</title>
+    <title>Chuck Norris Jokes</title>
 
     <link rel="canonical" th:href="@{https://getbootstrap.com/docs/4.5/examples/starter-template/}">
 
@@ -73,18 +73,16 @@
         <div th:class="'page-title'">
             <h2> Register -> Login -> Get Chuck Norris jokes -> Pick one -> Save -> Have fun</h2>
         </div>
-        <h4><a th:href="@{/jokes}">New Jokes</a> </h4>
-        <div sec:authorize="isAuthenticated()" th:class="'content'" th:each="joke : ${jokes}">
+        <h4><a th:href="@{/jokes}">New Jokes</a> </h4><br>
+        <div th:class="'joke-content'" th:each="joke : ${jokes}">
             <p th:text="${joke.value}">joke</p>
-            <form th:action="@{/jokes/save}" th:object="${addJoke}" method="post">
+            <form sec:authorize="isAuthenticated()" th:action="@{'/jokes/save/' + ${joke.value}} " method="post">
                 <button th:class="'btn' + ' btn-primary'" type="submit" value="Submit">Save Joke</button>
             </form>
+            <p sec:authorize="isAnonymous()" th:class="joke-info">log in to save jokes</p>
         </div>
 
-        <div sec:authorize="isAnonymous()" th:class="'content'" th:each="joke : ${jokes}">
-            <p th:text="${joke.value}">joke</p>
-            <p th:class="joke-info">log in to save jokes</p>
-        </div>
+
     </div>
 
 </main><!-- /.container -->
